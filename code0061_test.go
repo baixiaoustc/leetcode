@@ -1,6 +1,9 @@
 package leetcode
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestRotateRight1(t *testing.T) {
 	list1 := []int{1, 3, 5, 7, 9, 11}
@@ -48,4 +51,22 @@ func TestRotateRight6(t *testing.T) {
 
 	l2 := rotateRight(l1, 1)
 	l2.Print()
+}
+
+func TestRotate1(t *testing.T) {
+	a := []int{1, 2, 3, 4, 5, 6, 7}
+	rotate(a, 3)
+	fmt.Println(a)
+}
+
+func TestRotate2(t *testing.T) {
+	a := []int{1, 2}
+	rotate(a, 3)
+	fmt.Println(a)
+}
+
+func TestRotate3(t *testing.T) {
+	a := []int{1}
+	rotate(a, 3)
+	fmt.Println(a)
 }
