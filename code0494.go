@@ -29,6 +29,90 @@
 
 package leetcode
 
+//此题很多解法，值得思考
+
 func findTargetSumWays(nums []int, S int) int {
-	return 0
+	count := 0
+	sumDFS(nums, 0, 0, S, &count)
+	return count
+}
+
+func sumDFS(nums []int, sum, index, S int, count *int) {
+	if index == len(nums) {
+		if sum == S {
+			*count += 1
+		}
+		return
+	}
+
+	sumDFS(nums, sum+nums[index], index+1, S, count)
+	sumDFS(nums, sum-nums[index], index+1, S, count)
+}
+
+//和上面解法类似
+func findTargetSumRecursive(nums []int, S int) int {
+	return sumRecursive(nums, 0, 0, S)
+}
+
+func sumRecursive(nums []int, sum, index, S int) int {
+	if index == len(nums) {
+		if sum == S {
+			return 1
+		} else {
+			return 0
+		}
+	}
+
+	return sumRecursive(nums, sum+nums[index], index+1, S) + sumRecursive(nums, sum-nums[index], index+1, S)
+}
+
+//剪枝
+func findTargetSumWaysCut(nums []int, S int) int {
+	m := make(map[[2]int]int)
+	return sumDFSCUT(nums, 0, 0, S, m)
+}
+
+func sumDFSCUT(nums []int, sum, index, S int, m map[[2]int]int) int {
+	if _, ok := m[[2]int{index, sum}]; !ok && (index < len(nums)) {
+		m[[2]int{index, sum}] = sumDFSCUT(nums, sum+nums[index], index+1, S, m) + sumDFSCUT(nums, sum-nums[index], index+1, S, m)
+	}
+	if v, ok := m[[2]int{index, sum}]; ok {
+		return v
+	} else {
+		if sum == S {
+			return 1
+		} else {
+			return 0
+		}
+	}
+}
+
+//dp
+func findTargetSumWaysDP(nums []int, S int) int {
+	var total int
+	for _, n := range nums {
+		total += n
+	}
+	if S > total {
+		return 0
+	}
+	dp := make([][]int, len(nums)) //dp[i][j]，i为取到哪个数字的index，j为目前的和，值为方法数
+	for i := range dp {
+		dp[i] = make([]int, total*2+1)
+	}
+
+	//init
+	dp[0][total+nums[0]] = 1
+	dp[0][total-nums[0]] += 1
+	for i := 1; i < len(nums); i++ {
+		for j := 0; j <= total*2; j++ {
+			if j-nums[i] >= 0 {
+				dp[i][j] += dp[i-1][j-nums[i]]
+			}
+			if j+nums[i] < total*2+1 {
+				dp[i][j] += dp[i-1][j+nums[i]]
+			}
+		}
+	}
+	return dp[len(nums)-1][total+S]
 }

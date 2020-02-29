@@ -7,7 +7,7 @@ import (
 )
 
 func TestMyCircularQueue1(t *testing.T) {
-	queue := Constructor(3)
+	queue := ConstructorMyCircularQueue(3)
 	fmt.Println(queue.IsFull(), queue.IsEmpty())
 	fmt.Println(queue.EnQueue(1), queue.IsEmpty())
 	fmt.Println(queue.Front(), queue.Rear())
