@@ -70,3 +70,36 @@ func canPartition(nums []int) bool {
 
 	return dp[length-1][sum]
 }
+
+//一维数组dp解法
+//也即01背包解法（01背包的解法是内部循环为降序，对比完全背包code0322）
+func canPartitionOne(nums []int) bool {
+	length := len(nums)
+	if length == 0 || length > 200 {
+		return false
+	}
+
+	sum := 0
+	for _, n := range nums {
+		sum += n
+	}
+	if sum%2 != 0 || sum > 200*100 {
+		return false
+	}
+	sum = sum / 2
+
+	//高级背包解法
+	//dp[i]，表示和为i的可能性
+	dp := make([]bool, sum+1)
+
+	//init
+	dp[0] = true
+
+	for i := 0; i < length; i++ {
+		for j := sum; j >= nums[i]; j-- {
+			dp[j] = dp[j] || dp[j-nums[i]]
+		}
+	}
+
+	return dp[sum]
+}
