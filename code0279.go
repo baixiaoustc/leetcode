@@ -19,6 +19,8 @@
 
 package leetcode
 
+import "math"
+
 func numSquares(n int) int {
 	if n == 0 {
 		return 0
@@ -55,4 +57,33 @@ func numSquares(n int) int {
 	}
 
 	return -1
+}
+
+func numSquaresZeroOne(n int) int {
+	squareNums := make([]int, 0)
+	for i := 1; ; i++ {
+		if i*i > n {
+			break
+		}
+		squareNums = append(squareNums, i*i)
+	}
+
+	dp := make([]int, n+1)
+	for i := 0; i <= n; i++ {
+		dp[i] = math.MaxInt32
+	}
+
+	//init
+	dp[0] = 0
+
+	for _, square := range squareNums {
+		for i := square; i <= n; i++ {
+			dp[i] = int(math.Min(float64(dp[i]), float64(dp[i-square]+1)))
+		}
+	}
+
+	if dp[n] == math.MaxInt32 {
+		return -1
+	}
+	return dp[n]
 }

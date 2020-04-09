@@ -29,6 +29,8 @@
 
 package leetcode
 
+import "math"
+
 //普通背包问题解法
 func canPartition(nums []int) bool {
 	length := len(nums)
@@ -73,7 +75,7 @@ func canPartition(nums []int) bool {
 
 //一维数组dp解法
 //也即01背包解法（01背包的解法是内部循环为降序，对比完全背包code0322）
-func canPartitionOne(nums []int) bool {
+func canPartitionZeroOne(nums []int) bool {
 	length := len(nums)
 	if length == 0 || length > 200 {
 		return false
@@ -102,4 +104,63 @@ func canPartitionOne(nums []int) bool {
 	}
 
 	return dp[sum]
+}
+
+//01背包问题，2维dp
+func knapsackZeroOne2DP(weight []int, value []int, capacity int) int {
+	length := len(weight)
+	if length == 0 || length != len(value) {
+		return 0
+	}
+
+	//普通背包解法
+	//dp[i][j]，表示前i个组合，其容量和为j的最大价值
+	dp := make([][]int, length)
+	for i := range dp {
+		dp[i] = make([]int, capacity+1)
+	}
+
+	//init
+	for j := range dp[0] {
+		if weight[0] <= j {
+			dp[0][j] = value[0]
+		}
+	}
+
+	for i := 1; i < length; i++ {
+		for j := 0; j <= capacity; j++ {
+			//如果不选第i个物品
+			dp[i][j] = dp[i-1][j]
+			if j >= weight[i] {
+				//如果要选的话
+				dp[i][j] = int(math.Max(float64(dp[i-1][j]), float64(dp[i-1][j-weight[i]]+value[i])))
+			}
+		}
+	}
+
+	return dp[length-1][capacity]
+}
+
+//01背包问题，1维dp
+func knapsackZeroOne1DP(weight []int, value []int, capacity int) int {
+	length := len(weight)
+	if length == 0 || length != len(value) {
+		return 0
+	}
+
+	//高级背包解法
+	//dp[j]，表示容量和为i的最大价值
+	dp := make([]int, capacity+1)
+
+	//init，容量为0，价值为0
+	dp[0] = 0
+
+	for i := 0; i < length; i++ {
+		for j := capacity; j >= weight[i]; j-- {
+			//照搬公式
+			dp[j] = int(math.Max(float64(dp[j]), float64(dp[j-weight[i]]+value[i])))
+		}
+	}
+
+	return dp[capacity]
 }

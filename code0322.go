@@ -24,10 +24,12 @@ import "math"
 
 //普通递归 OOT (out of time)
 func coinChangeRecursive(coins []int, amount int) int {
-	return exchange(coins, amount)
+	return exchangeRecursive(coins, amount)
 }
 
-func exchange(coins []int, amount int) int {
+//递归函数，返回凑硬币的最小个数，不能凑的情况返回-1
+func exchangeRecursive(coins []int, amount int) int {
+	//两个临界条件
 	if amount == 0 {
 		return 0
 	}
@@ -35,9 +37,10 @@ func exchange(coins []int, amount int) int {
 		return -1
 	}
 
+	//因为是求最小值，所以先初始化为极大值
 	var result int = math.MaxInt32
 	for _, coin := range coins {
-		ret := exchange(coins, amount-coin)
+		ret := exchangeRecursive(coins, amount-coin)
 		if ret == -1 {
 			continue
 		}
@@ -52,19 +55,24 @@ func exchange(coins []int, amount int) int {
 }
 
 func coinChangeCut(coins []int, amount int) int {
-	m := make(map[int]int)
+	m := make([]int, amount+1)
+	for i := 0; i <= amount; i++ {
+		m[i] = math.MaxInt32
+	}
 	return exchangeCut(coins, amount, m)
 }
 
-func exchangeCut(coins []int, amount int, m map[int]int) int {
-	if v, ok := m[amount]; ok {
-		return v
-	}
+//递归函数，加剪枝
+func exchangeCut(coins []int, amount int, m []int) int {
 	if amount == 0 {
 		return 0
 	}
 	if amount < 0 {
 		return -1
+	}
+	//存储中间结果
+	if m[amount] != math.MaxInt32 {
+		return m[amount]
 	}
 
 	var result int = math.MaxInt32

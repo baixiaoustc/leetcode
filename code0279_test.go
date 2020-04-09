@@ -6,13 +6,13 @@ import (
 )
 
 func TestNumSquares1(t *testing.T) {
-	fmt.Println(numSquares(12))
+	fmt.Println(numSquaresZeroOne(12))
 }
 
 func TestNumSquares2(t *testing.T) {
-	fmt.Println(numSquares(13))
+	fmt.Println(numSquaresZeroOne(13))
 }
 
 func TestNumSquares3(t *testing.T) {
-	fmt.Println(numSquares(7))
+	fmt.Println(numSquaresZeroOne(7))
 }

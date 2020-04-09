@@ -6,9 +6,9 @@ import (
 )
 
 func TestCoinChangeRecursive1(t *testing.T) {
-	fmt.Println(coinChangeDP([]int{1, 2, 5}, 11))
+	fmt.Println(coinChangeCut([]int{1, 2, 5}, 11))
 }
 
 func TestCoinChangeRecursive2(t *testing.T) {
-	fmt.Println(coinChangeDP([]int{2}, 3))
+	fmt.Println(coinChangeCut([]int{2}, 3))
 }

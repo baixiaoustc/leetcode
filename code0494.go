@@ -116,3 +116,39 @@ func findTargetSumWaysDP(nums []int, S int) int {
 	}
 	return dp[len(nums)-1][total+S]
 }
+
+//01背包解法
+func findTargetSumWaysZeroOne(nums []int, S int) int {
+	var total int
+	for _, n := range nums {
+		total += n
+	}
+	if S > total {
+		return 0
+	}
+
+	/* https://leetcode-cn.com/problems/target-sum/solution/python-dfs-xiang-jie-by-jimmy00745/
+	                  sum(P) - sum(N) = target
+	                  （两边同时加上sum(P)+sum(N)）
+	sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
+	            (因为 sum(P) + sum(N) = sum(nums))
+	                       2 * sum(P) = target + sum(nums)
+	*/
+	if (total+S)%2 != 0 {
+		return 0
+	}
+	sum := (total + S) / 2
+
+	dp := make([]int, sum+1) //dp[j]，j为目前的和，值为方法数
+
+	//init，都是正数。取值为0的方法只有一个：什么都不取
+	dp[0] = 1
+
+	for i := 0; i < len(nums); i++ {
+		for j := sum; j >= nums[i]; j-- {
+			dp[j] += dp[j-nums[i]]
+
+		}
+	}
+	return dp[sum]
+}
