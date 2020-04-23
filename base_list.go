@@ -131,3 +131,5 @@ func reverseList(head *ListNode) *ListNode {
 	head.Next = nil
 	return cur
 }
+
+/////////////////////////////////////////////////////// 双向链表
