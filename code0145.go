@@ -17,12 +17,28 @@
 
 package leetcode
 
+//取巧解法
 func postorderTraversal(root *TreeNode) []int {
 	if root == nil {
 		return []int{}
 	}
 
 	ret := make([]int, 0)
-
-	return ret
+	stack := NewStackInterface()
+	stack.Push(root)
+	for stack.Size() != 0 {
+		ele := stack.Pop().(*TreeNode)
+		ret = append(ret, ele.Val)
+		if ele.Left != nil {
+			stack.Push(ele.Left)
+		}
+		if ele.Right != nil {
+			stack.Push(ele.Right)
+		}
+	}
+	realRet := make([]int, len(ret))
+	for i := range ret {
+		realRet[i] = ret[len(ret)-1-i]
+	}
+	return realRet
 }
