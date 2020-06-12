@@ -22,7 +22,13 @@
 
 package leetcode
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Codec struct {
+	data []string
 }
 
 func Constructor() Codec {
@@ -31,12 +37,18 @@ func Constructor() Codec {
 
 // Serializes a tree to a single string.
 func (this *Codec) serialize(root *TreeNode) string {
-	return ""
+	this.data = ParseBinaryTree(root)
+	return strings.Join(this.data, ";")
 }
 
 // Deserializes your encoded data to tree.
 func (this *Codec) deserialize(data string) *TreeNode {
-	return nil
+	if data == "" {
+		return nil
+	}
+	list := strings.Split(data, ";")
+	fmt.Println("list", list, len(list))
+	return NewBinaryTree(list)
 }
 
 /**

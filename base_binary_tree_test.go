@@ -34,3 +34,8 @@ func TestNewBinaryTree6(t *testing.T) {
 	tree := NewBinaryTree([]string{"1", "null", "2", "3"})
 	fmt.Println(preorderTraversalRecursive(tree))
 }
+
+func TestNewBinaryTree7(t *testing.T) {
+	tree := NewBinaryTree([]string{"5", "4", "7", "3", "null", "2", "null", "-1", "null", "9"})
+	fmt.Println(preorderTraversalRecursive(tree))
+}
