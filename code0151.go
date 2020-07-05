@@ -1,4 +1,5 @@
 /*
+151. 翻转字符串里的单词
 给定一个字符串，逐个翻转字符串中的每个单词。
 
 
@@ -37,7 +38,10 @@
 
 package leetcode
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 func reverseWords(s string) string {
 	ss := strings.TrimSpace(s)
@@ -73,4 +77,56 @@ func isSpace(s rune) bool {
 		return true
 	}
 	return false
+}
+
+func reverseWords1(s string) string {
+	start, end := 0, len(s)-1
+	//先去掉头尾的空格
+	for start < len(s) {
+		if s[start] == ' ' {
+			start++
+		} else {
+			break
+		}
+	}
+	for end > start {
+		if s[end] == ' ' {
+			end--
+		} else {
+			break
+		}
+	}
+	fmt.Println(start, end)
+	ss := s[start : end+1]
+	fmt.Println(ss)
+	sss := reversS(ss)
+	fmt.Println(sss)
+	start, end = 0, 0
+	var ret string
+	for i := 0; i < len(sss); {
+		if sss[i] != ' ' {
+			end = i
+			i++
+		} else {
+			ret += reversS(sss[start:i])
+			for ; i < len(sss); i++ {
+				if sss[i] != ' ' {
+					ret += " "
+					break
+				}
+			}
+			fmt.Println(ret)
+			start = i
+		}
+	}
+	ret += reversS(sss[start:len(sss)])
+	return ret
+}
+
+func reversS(s string) string {
+	var _s string
+	for i := len(s) - 1; i >= 0; i-- {
+		_s += string(s[i])
+	}
+	return _s
 }

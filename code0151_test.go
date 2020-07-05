@@ -6,19 +6,23 @@ import (
 )
 
 func TestReverseWords(t *testing.T) {
-	fmt.Println(reverseWords557("the sky is blue"))
+	fmt.Println(reverseWords1("the sky is blue"))
 }
 
 func TestReverseWords1(t *testing.T) {
-	fmt.Println(reverseWords557("  hello world!  "))
+	fmt.Println(reverseWords1("  hello world!  "))
 }
 
 func TestReverseWords2(t *testing.T) {
-	fmt.Println(reverseWords557("a good   example"))
+	fmt.Println(reverseWords1("a good   example"))
 }
 
 func TestReverseWords3(t *testing.T) {
 	fmt.Println(reverseWords557("Let's take LeetCode contest"))
+}
+
+func TestReverseWords4(t *testing.T) {
+	fmt.Println(reverseWords1(" "))
 }
 
 func TestRune1(t *testing.T) {
